@@ -1,37 +1,34 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+import 'app_config.dart';
+import 'home.dart';
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+void main() => runApp(GalleryApp());
+
+class GalleryApp extends StatefulWidget {
+  GalleryApp({Key key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+  GalleryAppState createState() => new GalleryAppState();
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
+class GalleryAppState extends State<GalleryApp> {
+  // Initialize app settings from the default configuration.
+  bool _showPerformanceOverlay = defaultConfig.showPerformanceOverlay;
 
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(),
-    );
+    return new MaterialApp(
+        title: defaultConfig.appName,
+        theme: defaultConfig.theme,
+        showPerformanceOverlay: _showPerformanceOverlay,
+        home: new Home(
+          showPerformanceOverlay: _showPerformanceOverlay,
+          onShowPerformanceOverlayChanged: (bool value) {
+            setState(() {
+              _showPerformanceOverlay = value;
+            });
+          },
+        ));
   }
 }
